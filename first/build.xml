@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     Oct 1, 2019 9:55:53 AM                                                        
+
+     first    
+     description
+                   
+     user                                                                
+     ====================================================================== -->
+<project name="first" basedir = "." default="test">
+    <description>
+            description
+    </description>
+	<property name = "main-java-dir" value = "${basedir}/src/main/java"/>
+	<property name = "test-java-dir" value = "${basedir}/src/test/java"/>
+	<property name ="build-dir" value="${basedir}/bin" />
+
+    <!-- ================================= 
+          target: test              
+         ================================= -->
+    <target name="test" depends="test-compile, compile" description="description">
+        <junit>
+        	<classpath>
+        		<pathelement location = "${build-dir}"/>
+        	</classpath>
+        	<test name="ua.nure.cs.reveka.first.domain.UserTest"></test>
+        	<formatter type = "plain"/>
+         
+        </junit>
+    </target>
+
+    <!-- - - - - - - - - - - - - - - - - - 
+          target: test-compile                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="test-compile" depends="init">
+    	<javac srcdir = "${test-java-dir}" destdir = "${build-dir}" />
+    </target>
+	
+	<target name="compile">
+    	<javac srcdir = "${test-java-dir}" destdir = "${build-dir}" />
+	</target>
+	
+	<target name="init" depends="clean">
+		<mkdir dir="${build-dir}"/>
+	</target>
+	
+    <target name="clean">
+    	<delete dir="${build-dir}"/>
+    </target>
+</project>
