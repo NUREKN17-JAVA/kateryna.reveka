@@ -3,35 +3,50 @@ package ua.nure.kn.reveka.db;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
+
+import javax.management.RuntimeErrorException;
 
 public class ConnectionFactoryImpl implements ConnectionFactory {
+	private static final String CONNECTION_DRIVER = "connection.driver";
+	private static final String CONNECTION_URL = "connection.url";
+	private static final String CONNECTION_USER = "connection.user";
+	private static final String CONNECTION_PASSWORD = "connection.password";
+	
+	
+	private String url;
+	private String user;
+	private String password;
+	private String driver;
 
-	private final String user;
-	private final String password;
-	private final String url;
-	private final String driver;
-
-	public ConnectionFactoryImpl(String user, String password, String url, String driver) {
-		this.user = user;
-		this.password = password;
-		this.url = url;
+	public ConnectionFactoryImpl(Properties properties) {
+		this.driver = properties.getProperty(CONNECTION_DRIVER);
+		this.url = properties.getProperty(CONNECTION_URL);;
+		this.user = properties.getProperty(CONNECTION_USER);;
+		this.password = properties.getProperty(CONNECTION_PASSWORD);; 
+	}
+	
+	public ConnectionFactoryImpl(String driver, String url, String user, String password) {
 		this.driver = driver;
+		this.url = url;
+		this.user = user;
+		this.password = password; 
 	}
-
+	
+	public ConnectionFactoryImpl() {	}
 	@Override
-	public Connection getConnection() throws DatabaseException {
-		try {
-			Class.forName(driver);
-		} catch (ClassNotFoundException e) {
-			throw new DatabaseException(e);
-		}
-		
-		try {
-			return DriverManager.getConnection(url, user, password);
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		}
+	public Connection createConnection() throws DataBaseException {
+	    try {
+	      Class.forName(driver);
+	    } catch (ClassNotFoundException e) {
+	      throw new RuntimeException(e);
+	    }
+	    try {
+	      return DriverManager.getConnection(url, user, password);
+	    } catch (SQLException e) {
+	      throw new DataBaseException(e);
+	    }
 	}
-
+	
 
 }

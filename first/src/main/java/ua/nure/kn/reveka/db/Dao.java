@@ -2,16 +2,18 @@ package ua.nure.kn.reveka.db;
 
 import java.util.Collection;
 
-public interface Dao<T> {
-	    T create(T entity) throws DatabaseException;
+import ua.nure.kn.reveka.usermanagment.domain.User;
 
-	    void update(T entity) throws DatabaseException;
-
-	    void delete(T entity) throws DatabaseException;
-
-	    T find(Long id) throws DatabaseException;
-
-	    Collection<T> findAll() throws DatabaseException;
-
-	    void setConnectionFactory(ConnectionFactory connectionFactory);
+public interface Dao<T>{
+	User create(User user) throws DataBaseException;
+	
+	void update(User user) throws DataBaseException;
+	
+	void delete(User user) throws DataBaseException;
+	
+	User find(Long id) throws DataBaseException;
+	
+	Collection<User> findAll() throws DataBaseException;
+	
+	void setConnectionFactory(ConnectionFactory connectionFactory);
 }
