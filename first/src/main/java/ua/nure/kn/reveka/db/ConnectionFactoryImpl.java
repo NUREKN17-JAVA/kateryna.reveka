@@ -5,48 +5,45 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import javax.management.RuntimeErrorException;
-
 public class ConnectionFactoryImpl implements ConnectionFactory {
-	private static final String CONNECTION_DRIVER = "connection.driver";
-	private static final String CONNECTION_URL = "connection.url";
-	private static final String CONNECTION_USER = "connection.user";
-	private static final String CONNECTION_PASSWORD = "connection.password";
-	
-	
-	private String url;
-	private String user;
-	private String password;
-	private String driver;
 
-	public ConnectionFactoryImpl(Properties properties) {
-		this.driver = properties.getProperty(CONNECTION_DRIVER);
-		this.url = properties.getProperty(CONNECTION_URL);;
-		this.user = properties.getProperty(CONNECTION_USER);;
-		this.password = properties.getProperty(CONNECTION_PASSWORD);; 
-	}
-	
-	public ConnectionFactoryImpl(String driver, String url, String user, String password) {
-		this.driver = driver;
-		this.url = url;
+	private final String user;
+	private final String password;
+	private final String url;
+	private final String driver;
+    private static final String USER = "connection.user";
+    private static final String PASSWORD = "connection.password";
+    private static final String URL = "connection.url";
+    private static final String DRIVER = "connection.driver";
+
+	public ConnectionFactoryImpl(String user, String password, String url, String driver) {
 		this.user = user;
-		this.password = password; 
+		this.password = password;
+		this.url = url;
+		this.driver = driver;
 	}
 	
-	public ConnectionFactoryImpl() {	}
+    public ConnectionFactoryImpl(Properties properties) {
+        user = properties.getProperty(USER);
+        password = properties.getProperty(PASSWORD);
+        url = properties.getProperty(URL);
+        driver = properties.getProperty(DRIVER);
+    }
+
 	@Override
-	public Connection createConnection() throws DataBaseException {
-	    try {
-	      Class.forName(driver);
-	    } catch (ClassNotFoundException e) {
-	      throw new RuntimeException(e);
-	    }
-	    try {
-	      return DriverManager.getConnection(url, user, password);
-	    } catch (SQLException e) {
-	      throw new DataBaseException(e);
-	    }
+	public Connection getConnection() throws DatabaseException {
+		try {
+			Class.forName(driver);
+		} catch (ClassNotFoundException e) {
+			throw new DatabaseException(e);
+		}
+		
+		try {
+			return DriverManager.getConnection(url, user, password);
+		} catch (SQLException e) {
+			throw new DatabaseException(e);
+		}
 	}
-	
+
 
 }

@@ -12,10 +12,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import ua.nure.kn.reveka.db.DataBaseException;
+import ua.nure.kn.reveka.db.DatabaseException;
+import ua.nure.kn.reveka.usermanagement.util.Messages;
 
-
-public class BrowserPanel extends JPanel implements ActionListener {
+public class BrowsePanel extends JPanel implements ActionListener {
 
 	private MainFrame parent;
 	private JPanel buttonPanel;
@@ -26,22 +26,19 @@ public class BrowserPanel extends JPanel implements ActionListener {
 	private JScrollPane tablePanel;
 	private JTable userTable;
 
-	public BrowserPanel(MainFrame frame) {
-		// TODO Auto-generated constructor stub
+	public BrowsePanel(MainFrame frame) {
 		parent = frame;
 		initialize();
 	}
 
 	private void initialize() {
-		// TODO Auto-generated method stub
-		this.setName("browsePanel");
+		this.setName("browsePanel"); //$NON-NLS-1$
 		this.setLayout(new BorderLayout());
 		this.add(getTablePanel(), BorderLayout.CENTER);
 		this.add(getButtonsPanel(), BorderLayout.SOUTH);
 	}
 
 	private JPanel getButtonsPanel() {
-		// TODO Auto-generated method stub
 		if (buttonPanel == null) {
 			buttonPanel = new JPanel();
 			buttonPanel.add(getAddButton(), null);
@@ -53,68 +50,61 @@ public class BrowserPanel extends JPanel implements ActionListener {
 	}
 
 	private JButton getDetailsButton() {
-		// TODO Auto-generated method stub
 		if (detailsButton == null) {
 			detailsButton = new JButton();
-			detailsButton.setText("Details");
-			detailsButton.setName("detailsButton");
-			addButton.setActionCommand("details");
+			detailsButton.setText(Messages.getString("BrowsePanel.details")); //$NON-NLS-1$
+			detailsButton.setName("detailsButton"); //$NON-NLS-1$
+			detailsButton.setActionCommand("details"); //$NON-NLS-1$
 			detailsButton.addActionListener(this);
 		}
 		return detailsButton;
 	}
 
 	private JButton getDeleteButton() {
-		// TODO Auto-generated method stub
 		if (deleteButton == null) {
 			deleteButton = new JButton();
-			deleteButton.setText("Delete");
-			deleteButton.setName("deleteButton");
-			addButton.setActionCommand("delete");
+			deleteButton.setText(Messages.getString("BrowsePanel.delete")); //$NON-NLS-1$
+			deleteButton.setName("deleteButton"); //$NON-NLS-1$
+			deleteButton.setActionCommand("delete"); //$NON-NLS-1$
 			deleteButton.addActionListener(this);
 		}
 		return deleteButton;
 	}
 
 	private JButton getEditButton() {
-		// TODO Auto-generated method stub
 		if (editButton == null) {
 			editButton = new JButton();
-			editButton.setText("Edit");
-			editButton.setName("editButton");
-			addButton.setActionCommand("edit");
+			editButton.setText(Messages.getString("BrowsePanel.edit")); //$NON-NLS-1$
+			editButton.setName("editButton"); //$NON-NLS-1$
+			editButton.setActionCommand("edit"); //$NON-NLS-1$
 			editButton.addActionListener(this);
 		}
 		return editButton;
 	}
 
 	private JButton getAddButton() {
-		// TODO Auto-generated method stub
 		if (addButton == null) {
 			addButton = new JButton();
-			addButton.setText("Add");
-			addButton.setName("addButton");
-			addButton.setActionCommand("add");
+			addButton.setText(Messages.getString("BrowsePanel.add")); //$NON-NLS-1$
+			addButton.setName("addButton"); //$NON-NLS-1$
+			addButton.setActionCommand("add"); //$NON-NLS-1$
 			addButton.addActionListener(this);
 		}
 		return addButton;
 	}
 
 	private JScrollPane getTablePanel() {
-		// TODO Auto-generated method stub
-		if(tablePanel == null) {
+		if (tablePanel == null) {
 			tablePanel = new JScrollPane(getUserTable());
 		}
 		return tablePanel;
 	}
 
 	private JTable getUserTable() {
-		// TODO Auto-generated method stub
 		if (userTable == null) {
 			userTable = new JTable();
-			userTable.setName("userTable");
+			userTable.setName("userTable"); //$NON-NLS-1$
 		}
-		//initTable();
 		return userTable;
 	}
 
@@ -122,34 +112,21 @@ public class BrowserPanel extends JPanel implements ActionListener {
 		UserTableModel model;
 		try {
 			model = new UserTableModel(parent.getDao().findAll());
-		} catch (DataBaseException e) {
+		} catch (DatabaseException e) {
 			model = new UserTableModel(new ArrayList());
 			JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
-		//userTable.setModel(model);
+		
 		getUserTable().setModel(model);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		String actionCommand = e.getActionCommand();
-		if ("add".equalsIgnoreCase(actionCommand)) {
-			this.setVisible(false);
-			parent.showAddPanel();
-		}
-		else if ("edit".equalsIgnoreCase(actionCommand)) {
-			this.setVisible(false);
-			parent.showEditPanel(userTable.getSelectedRow());
-		}
-		else if ("details".equalsIgnoreCase(actionCommand)) {
-			this.setVisible(false);
-			parent.showDetailsPanel(userTable.getSelectedRow());
-		}
-		else if ("delete".equalsIgnoreCase(actionCommand)) {
-			this.setVisible(false);
-			parent.showDeletePanel(userTable.getSelectedRow());
-		}
+	   String actionCommand = e.getActionCommand();
+	   if ("add".equalsIgnoreCase(actionCommand)) { //$NON-NLS-1$
+		   this.setVisible(false);
+		   parent.showAddPanel();
+	   }
 	}
 
 }

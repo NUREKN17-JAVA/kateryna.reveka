@@ -1,14 +1,14 @@
 package ua.nure.kn.reveka.db;
 
-import java.sql.SQLException;
+@SuppressWarnings("serial")
+public class DatabaseException extends Exception {
 
-public class DataBaseException extends Exception {
+	public DatabaseException(Exception e) {
+		super(e);
+	}
 
-    public DataBaseException(SQLException e) {
-        super(e);
-    }
+	public DatabaseException(String string) {
+		super(string);
+	}
 
-    public DataBaseException(String s) {
-        super(s);
-    }
 }

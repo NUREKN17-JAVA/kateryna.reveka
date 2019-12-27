@@ -2,17 +2,18 @@ package ua.nure.kn.reveka.web;
 
 import java.util.Properties;
 
+import org.junit.jupiter.api.Test;
+
 import com.mockobjects.dynamic.Mock;
 import com.mockrunner.servlet.BasicServletTestCaseAdapter;
 
 import ua.nure.kn.reveka.db.DaoFactory;
 import ua.nure.kn.reveka.db.MockDaoFactory;
 
-public class MockServletTestCase extends BasicServletTestCaseAdapter {
+public abstract class MockServletTestCase extends BasicServletTestCaseAdapter {
 
-	private static final String DAO_FACTORY = "dao.factory";
 	private Mock mockUserDao;
-
+	
 	public Mock getMockUserDao() {
 		return mockUserDao;
 	}
@@ -24,14 +25,20 @@ public class MockServletTestCase extends BasicServletTestCaseAdapter {
 	protected void setUp() throws Exception {
 		super.setUp();
 		Properties properties = new Properties();
-		properties.setProperty(DAO_FACTORY, MockDaoFactory.class.getName());
+		properties.setProperty("dao.factory", MockDaoFactory.class.getName());
 		DaoFactory.init(properties);
-		setMockUserDao(((MockDaoFactory)DaoFactory.getInstance()).getMockUserDao());
+		setMockUserDao(((MockDaoFactory) DaoFactory.getInstance()).getMockUserDao());
 	}
 
 	protected void tearDown() throws Exception {
 		getMockUserDao().verify();
 		super.tearDown();
 	}
+	
+	@Test
+	void test() {
+		
+	}
+	
 
 }

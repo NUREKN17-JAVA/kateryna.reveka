@@ -1,20 +1,32 @@
 package ua.nure.kn.reveka.db;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import junit.framework.TestCase;
-import ua.nure.kn.reveka.usermanagment.domain.User;
 
-public class DaoFactoryTest extends TestCase {
+class DaoFactoryTest extends TestCase {
+	
+	@BeforeEach
+	protected
+	void setUp() throws Exception {
+	}
 
+	@Test
+	void test() {
+		testGetUserDao();
+	}
+	
 	public void testGetUserDao() {
-			try {
-				DaoFactory daoFactory = DaoFactory.getInstance();
-				assertNotNull("DaoFactory instance is null", daoFactory);
-				Dao Dao = daoFactory.getUserDao();
-				assertNotNull("Dao<User> is null", Dao);
-			} catch (RuntimeException e) {
-				e.printStackTrace();
-				fail(e.toString());
-			}
+		try {
+		    DaoFactory daoFactory = DaoFactory.getInstance();
+		    assertNotNull("DaoFactory instance is null", daoFactory);
+			Dao UserDao = daoFactory.getUserDao();
+			assertNotNull("UserDao instance is null", UserDao);
+		} catch (ReflectiveOperationException e) {
+			e.printStackTrace();
+			fail(e.toString());
+		}
 	}
 
 }
